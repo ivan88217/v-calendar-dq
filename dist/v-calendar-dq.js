@@ -1559,7 +1559,7 @@ const tn = (t = []) => Gt("dates", () => {
     y && b ? (n.value = "remove", c(l, g)) : (n.value = "add", a(l, g));
   }
   return { dates: e, action: n, addDate: r, addDates: a, removeDate: o, removeDates: c, xorDates: u, selectDates: m };
-})(), en = /* @__PURE__ */ Ht({
+})(), rn = /* @__PURE__ */ Ht({
   __name: "Calendar",
   props: {
     modelValue: {
@@ -1638,11 +1638,7 @@ const tn = (t = []) => Gt("dates", () => {
       }, null, 8, ["attributes", "modelValue", "select-attribute", "drag-attribute", "timezone", "min-date", "max-date"]);
     };
   }
-}), an = {
-  install: (t) => {
-    t.component("Calendar", en);
-  }
-};
+});
 export {
-  an as default
+  rn as default
 };
