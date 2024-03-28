@@ -1,0 +1,39 @@
+{
+  "name": "v-calendar-dq",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/v-calendar-dq.umd.js",
+  "module": "dist/v-calendar-dq.js",
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./dist/v-calendar-dq.js",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/v-calendar-dq.umd.js",
+        "types": "./dist/index.d.ts"
+      }
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build && vue-tsc --emitDeclarationOnly",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "date-fns": "^3.6.0",
+    "pinia": "^2.1.7",
+    "v-calendar": "next",
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vue-tsc": "^2.0.6"
+  }
+}
