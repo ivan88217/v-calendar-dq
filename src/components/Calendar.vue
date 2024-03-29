@@ -18,14 +18,20 @@ const props = defineProps({
     default: undefined,
     required: false,
   },
+  readonly: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 });
 
 const minDate = computed(() => props.minDate);
 const maxDate = computed(() => props.maxDate);
+const readonly = computed(() => props.readonly);
+const clicked = ref(0);
 
 const datesStore = useDatesStore(props.modelValue as string[]);
 const dates = computed(() => datesStore.dates);
-const action = computed(() => datesStore.action);
 
 const attributes = ref([
   {
@@ -36,33 +42,26 @@ const attributes = ref([
 ]);
 
 const selectAttribute = computed(() => ({
-  highlight:
-    action.value === "remove"
-      ? {
-          style: {
-            backgroundColor: "transparent",
-          },
-          contentStyle: {
-            backgroundColor: "transparent",
-            color: "black",
-          },
-        }
-      : {
-          style: {
-            backgroundColor: "transparent",
-            color: "black",
-          },
-        },
+  highlight: {
+    style: {
+      backgroundColor: "transparent",
+      color: "black",
+    },
+    contentStyle: {
+      backgroundColor: "transparent",
+      color: "black",
+    },
+  },
 }));
 
 const dragAttribute = computed(() => ({
   highlight: {
     style: {
-      backgroundColor: "#5fc385",
-      color: "white",
+      backgroundColor: readonly.value ? "transparent" : "#5fc385",
+      color: readonly.value ? "black" : "white",
     },
     contentStyle: {
-      color: "white",
+      color: readonly.value ? "black" : "white",
     },
   },
 }));
@@ -72,12 +71,22 @@ const range = ref();
 const timezone = ref("Asia/Taipei");
 
 watchEffect(() => {
+  if (readonly.value) return;
+
   if (!range.value) return;
   const start = range.value.start;
   const end = range.value.end;
 
   datesStore.selectDates(start, end);
 });
+
+const handleDayClick = () => {
+  if (++clicked.value % 2 === 0) {
+    range.value = {
+      ...range.value,
+    }
+  }
+};
 
 const emit = defineEmits(["update:modelValue"]);
 watchEffect(() => {
@@ -88,6 +97,7 @@ watchEffect(() => {
 <template>
   <VDatePicker
     class="my-calendar"
+    :class="readonly ? 'disabled-calendar' : ''"
     :columns="2"
     :attributes="attributes"
     v-model.range="range"
@@ -96,6 +106,7 @@ watchEffect(() => {
     :timezone="timezone"
     :min-date="minDate"
     :max-date="maxDate"
+    @dayclick="handleDayClick"
   >
   </VDatePicker>
 </template>
@@ -104,5 +115,10 @@ watchEffect(() => {
 .my-calendar .vc-weekday-6,
 .my-calendar .vc-weekday-7 {
   color: #ff0000;
+}
+
+.disabled-calendar {
+  pointer-events: none;
+  opacity: 0.5;
 }
 </style>
